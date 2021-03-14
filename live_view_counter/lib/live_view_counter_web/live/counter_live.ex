@@ -40,6 +40,15 @@ defmodule LiveViewCounterWeb.CounterLive do
     {:noreply, new_count}
   end
 
+  def handle_event("reset", _, socket) do
+    new_count = update(socket, :count, fn _ -> 0 end)
+
+    LiveViewCounterWeb.Endpoint.broadcast_from(self(), @topic, "reset", new_count.assigns)
+    LiveViewCounterWeb.Counter.update(new_count.assigns.count)
+
+    {:noreply, new_count}
+  end
+
   def handle_info(msg, socket) do
     {:noreply, assign(socket, count: msg.payload.count)}
   end
@@ -52,6 +61,7 @@ defmodule LiveViewCounterWeb.CounterLive do
       <label> The count is <%= assigns[:count] %></label>
       <button phx-click="add">Add</button>
       <button phx-click="subtract">Subtract</button>
+      <button phx-click="reset">Reset to Zero</button>
     </div>
     """
   end
