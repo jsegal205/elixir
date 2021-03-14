@@ -18,44 +18,30 @@ defmodule LiveViewCounterWeb.CounterLive do
   def handle_event("add", _, socket) do
     # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#update/3
     # https://dockyard.com/blog/2016/08/05/understand-capture-operator-in-elixir
-    new_count = update(socket, :count, &(&1 + 1))
+    fresh_socket = update(socket, :count, &(&1 + 1))
+    update_store("add", fresh_socket)
 
-    # tell everyone listening to this port to update the value
-    LiveViewCounterWeb.Endpoint.broadcast_from(self(), @topic, "add", new_count.assigns)
-    # update genserver memory data store
-    LiveViewCounterWeb.Counter.update(new_count.assigns.count)
-
-    {:noreply, new_count}
+    {:noreply, fresh_socket}
   end
 
-  # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_event/3
   def handle_event("subtract", _, socket) do
-    # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#update/3
-    # https://dockyard.com/blog/2016/08/05/understand-capture-operator-in-elixir
-    new_count = update(socket, :count, &(&1 - 1))
+    fresh_socket = update(socket, :count, &(&1 - 1))
+    update_store("subtract", fresh_socket)
 
-    # tell everyone listening to this port to update the value
-    LiveViewCounterWeb.Endpoint.broadcast_from(self(), @topic, "subtract", new_count.assigns)
-    # update genserver memory data store
-    LiveViewCounterWeb.Counter.update(new_count.assigns.count)
-
-    {:noreply, new_count}
+    {:noreply, fresh_socket}
   end
 
   def handle_event("reset", _, socket) do
-    new_count = update(socket, :count, fn _ -> 0 end)
+    fresh_socket = update(socket, :count, fn _ -> 0 end)
+    update_store("reset", fresh_socket)
 
-    LiveViewCounterWeb.Endpoint.broadcast_from(self(), @topic, "reset", new_count.assigns)
-    LiveViewCounterWeb.Counter.update(new_count.assigns.count)
-
-    {:noreply, new_count}
+    {:noreply, fresh_socket}
   end
 
   def handle_info(msg, socket) do
     {:noreply, assign(socket, count: msg.payload.count)}
   end
 
-  # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_event/3
   def render(assigns) do
     # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.Helpers.html#sigil_L/2
     ~L"""
@@ -66,5 +52,10 @@ defmodule LiveViewCounterWeb.CounterLive do
       <button phx-click="reset">Reset to Zero</button>
     </div>
     """
+  end
+
+  defp update_store(call, socket) do
+    Endpoint.broadcast_from(self(), @topic, call, socket.assigns)
+    Counter.update(socket.assigns.count)
   end
 end
