@@ -12,9 +12,10 @@ defmodule LiveViewCounter.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: LiveViewCounter.PubSub},
       # Start the Endpoint (http/https)
-      LiveViewCounterWeb.Endpoint
+      LiveViewCounterWeb.Endpoint,
       # Start a worker by calling: LiveViewCounter.Worker.start_link(arg)
       # {LiveViewCounter.Worker, arg}
+      LiveViewCounterWeb.Counter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
