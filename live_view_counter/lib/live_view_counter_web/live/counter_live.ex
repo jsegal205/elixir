@@ -1,12 +1,14 @@
 defmodule LiveViewCounterWeb.CounterLive do
   use Phoenix.LiveView
 
+  alias LiveViewCounterWeb.{Endpoint, Counter}
+
   @topic "counter"
 
   # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html?#c:mount/3
   def mount(_params, _session, socket) do
-    LiveViewCounterWeb.Endpoint.subscribe(@topic)
-    count = LiveViewCounterWeb.Counter.lookup()
+    Endpoint.subscribe(@topic)
+    count = Counter.lookup()
 
     # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#assign/3
     {:ok, assign(socket, :count, count)}
