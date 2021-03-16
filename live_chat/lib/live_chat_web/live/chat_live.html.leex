@@ -7,7 +7,7 @@ Chat like you have never chatted before!
   </form>
 </section>
 
-<section>
+<section style="border: 2px solid black; padding: 1em; margin-bottom: 1em;">
   <h2>History</h2>
   <%= Enum.map(@chat_log, fn(log) -> %>
     <label><%= log %></label>
@@ -18,12 +18,19 @@ Chat like you have never chatted before!
   TODO:
   <ul>
     <li>genserver (memory store), update chat log</li>
-    <li>styles</li>
+    <li>subscribe and broadcast to a topic</li>
+    <li>replace inline styles with classes</li>
+    <li>add tests</li>
+    <li>add error flash when blank or just don't submit</li>
     <li>
       add multiple session information
       <ul>
         <li>color coded session</li>
         <li>user names</li>
+        <li>update labels with who and when they typed</li>
+        <ul>
+          <li>ohhh this probably should have ecto to store that stuff</li>
+        </ul>
       </ul>
     </li>
   </ul>
