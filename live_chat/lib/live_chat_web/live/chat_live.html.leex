@@ -2,16 +2,16 @@ Chat like you have never chatted before!
 
 <section>
   <form phx-submit="chat">
-    <input name="c" value="<%= @chat %>" type="text" />
+    <input name="c" type="text" />
     <button type="submit">Submit</button>
   </form>
 </section>
 
 <section>
   <h2>History</h2>
-  <%= for log <- @chat_log do %>
-  <label style="border: 2px solid black"><%= log %></label>
-  <% end %>
+  <%= Enum.map(@chat_log, fn(log) -> %>
+    <label><%= log %></label>
+  <% end) %>
 </section>
 
 <section style="border: 2px solid green; padding: 1em;">
