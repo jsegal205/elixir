@@ -1,0 +1,30 @@
+Chat like you have never chatted before!
+
+<section>
+  <form phx-submit="chat">
+    <input name="c" value="<%= @chat %>" type="text" />
+    <button type="submit">Submit</button>
+  </form>
+</section>
+
+<section>
+  <h2>History</h2>
+  <%= for log <- @chat_log do %>
+  <label style="border: 2px solid black"><%= log %></label>
+  <% end %>
+</section>
+
+<section style="border: 2px solid green; padding: 1em;">
+  TODO:
+  <ul>
+    <li>genserver (memory store), update chat log</li>
+    <li>styles</li>
+    <li>
+      add multiple session information
+      <ul>
+        <li>color coded session</li>
+        <li>user names</li>
+      </ul>
+    </li>
+  </ul>
+</section>
