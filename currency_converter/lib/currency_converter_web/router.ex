@@ -5,8 +5,9 @@ defmodule CurrencyConverterWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", CurrencyConverterWeb do
+  scope "/", CurrencyConverterWeb do
     pipe_through :api
+    get "/", CurrencyController, :index
   end
 
   # Enables LiveDashboard only for development
