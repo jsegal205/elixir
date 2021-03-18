@@ -1,5 +1,38 @@
 # CurrencyConverter
 
+A simple JSON endpoint that calculates exchange rate of a given currency.
+
+## Run Project
+
+To start your Phoenix server:
+
+  * Install dependencies with `mix deps.get`
+  * Start Phoenix endpoint with `mix phx.server`
+
+### Sample Request
+```
+http://localhost:4000/?from=EUR&to=USD&amount=123
+```
+
+### Controller
+[lib/currency_converter_web/controllers/currency_converter_controller.ex](lib/currency_converter_web/controllers/currency_converter_controller.ex)
+
+
+### Uses
+- HTTPoison for web requests
+- https://ratesapi.io/ for current exchange rate data
+
+
+## Tests
+[test/currency_converter_web/controllers/currency_converter_controller_test.exs](test/currency_converter_web/controllers/currency_converter_controller_test.exs)
+
+Run tests with
+```
+mix test
+```
+
+## mix phx.new readme boilerplate
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
