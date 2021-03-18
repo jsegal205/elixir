@@ -1,19 +1,18 @@
 defmodule CurrencyConverterWeb.CurrencyController do
   use CurrencyConverterWeb, :controller
-  require IEx
 
   def index(conn, %{"from" => from, "to" => to, "amount" => amount}) do
     case Float.parse(amount) do
       :error ->
-        json(conn, %{success: false, message: "please provide amount as integer or float"})
+        json(conn, %{success: false, message: "Please provide amount as integer or float"})
 
       {parsed_amount, _} ->
         to_up = String.upcase(to)
         url = "https://api.ratesapi.io/api/latest?base=#{String.upcase(from)}&symbols=#{to_up}"
 
         with {:ok, %HTTPoison.Response{body: body}} <- HTTPoison.get(url),
-             decoded <- Poison.decode!(body),
-             exchange_rate <- Map.get(decoded["rates"], to_up) do
+             %{"rates" => to_rates} <- Poison.decode!(body),
+             exchange_rate <- Map.get(to_rates, to_up) do
           converted_amount = Float.round(parsed_amount * exchange_rate, 2)
 
           json(conn, %{
@@ -23,9 +22,11 @@ defmodule CurrencyConverterWeb.CurrencyController do
             output: converted_amount
           })
         else
-          oops ->
-            IEx.pry()
-            json(conn, %{success: false, message: "something went wrong"})
+          %{"error" => error} ->
+            json(conn, %{success: false, message: error})
+
+          _ ->
+            json(conn, %{success: false, message: "Something went wrong"})
         end
     end
   end
