@@ -20,7 +20,7 @@ defmodule CurrencyConverter.MixProject do
   def application do
     [
       mod: {CurrencyConverter.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -40,7 +40,9 @@ defmodule CurrencyConverter.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:cowboy, "~> 2.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:httpoison, "~> 1.8"},
+      {:poison, "~> 3.1"}
     ]
   end
 
