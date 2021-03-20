@@ -43,7 +43,8 @@ defmodule CurrencyConverter.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.8"},
       {:poison, "~> 3.1"},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:credo, "~> 1.5"}
     ]
   end
 
