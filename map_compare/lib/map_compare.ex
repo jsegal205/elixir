@@ -9,10 +9,12 @@ defmodule MapCompare do
   """
 
   def compare(a, b) when not is_map(a) or not is_map(b) do
-    {:error, "invalid arg type"}
+    {:error, "Invalid arg type. Only accepts Maps as args."}
   end
 
-  def compare(a = %{}, a = %{}) do
-    %{same: true, added_to_b: %{}, removed_from_a: %{}}
+  def compare(a, a) do
+    %{same: true}
   end
+
+  # get all keys from a, get all keys from b, compare
 end
