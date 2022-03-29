@@ -18,9 +18,9 @@ defmodule MapCompare do
     %{same: true}
   end
 
-  def compare(map_a, map_b) do
+  def compare(map_a, map_b, shallow? \\ false) do
     # loop through and compare all key value pairs in map_a with map_b
-    {changes, equal?} = Enum.reduce(map_a, {%{}, true}, &do_compare(&1, &2, map_b))
+    {changes, equal?} = Enum.reduce(map_a, {%{}, true}, &do_compare(&1, &2, map_b, shallow?))
 
     # loop through and note any keys that were added to map_b
     {changes, equal?} = additions(map_a, map_b, changes, equal?)
@@ -35,39 +35,43 @@ defmodule MapCompare do
   end
 
   # check if map_b has key, onward to do_compare/4
-  defp do_compare(el = {key, _}, acc, map_b) do
-    do_compare(el, acc, map_b[key], Map.has_key?(map_b, key))
+  defp do_compare(el = {key, _}, acc, map_b, shallow?) do
+    do_compare(el, acc, map_b[key], Map.has_key?(map_b, key), shallow?)
   end
 
   # if map_b has key listed from map_a, and the values are the same,
   # return {changes (with declaration that values are same), equal?}
-  defp do_compare({key, val}, {changes, equal?}, val, true) do
+  defp do_compare({key, val}, {changes, equal?}, val, true, _) do
     {Map.put(changes, key, %{changed: :equal, value: val}), equal?}
   end
 
   # if map_b has key listed from map_a, and the values are maps,
   # time to recurse and do it all over again, forever
-  defp do_compare({key, vala}, {changes, equal?}, valb, true)
+  defp do_compare({key, vala}, {changes, equal?}, valb, true, shallow?)
        when is_map(vala) and is_map(valb) do
-    valueDiff = compare(vala, valb)
+    if shallow? do
+      {Map.put(changes, key, %{changed: :ignored, value: vala}), equal?}
+    else
+      valueDiff = compare(vala, valb, shallow?)
 
-    # return {changes (with this any listed differences), equal?}
-    case valueDiff.same do
-      true -> {Map.put(changes, key, %{changed: :equal, value: vala}), equal?}
-      _ -> {Map.put(changes, key, valueDiff), false}
+      # return {changes (with this any listed differences), equal?}
+      case valueDiff.same do
+        true -> {Map.put(changes, key, %{changed: :equal, value: vala}), equal?}
+        _ -> {Map.put(changes, key, valueDiff), false}
+      end
     end
   end
 
   # if map_b has key listed in map_a, and the values are not maps,
   # and the values of the key are different,
   # return {changes (with this new value difference), equal?}
-  defp do_compare({key, vala}, {changes, _}, valb, true) do
+  defp do_compare({key, vala}, {changes, _}, valb, true, _) do
     {Map.put(changes, key, %{changed: :value_changed, removed: vala, added: valb}), false}
   end
 
   # if map_b does not have the key from map_a,
   # return {changes (with this new key difference), equal?}
-  defp do_compare({key, vala}, {changes, _}, _, false) do
+  defp do_compare({key, vala}, {changes, _}, _, false, _) do
     {Map.put(changes, key, %{changed: :key_removed, value: vala}), false}
   end
 

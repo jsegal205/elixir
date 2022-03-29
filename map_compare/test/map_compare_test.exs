@@ -36,29 +36,89 @@ defmodule MapCompareTest do
   end
 
   test "when two maps with same key value pairs" do
-    map_a = %{"integer" => 1, "string" => "two", "boolean" => false, "list" => [], "map" => %{}}
+    map_a = %{
+      "integer" => 1,
+      "string" => "two",
+      "boolean" => false,
+      "list" => [],
+      "map" => %{}
+    }
+
     map_b = map_a
     assert MapCompare.compare(map_a, map_b) == %{same: true}
   end
 
   test "when two maps with different keys but same values" do
-    assert MapCompare.compare(%{"a" => 1}, %{"b" => 1}) == %{
+    assert MapCompare.compare(
+             %{"a" => 1},
+             %{"b" => 1}
+           ) == %{
              same: false,
              added_to_b: %{"b" => 1},
              removed_from_a: %{"a" => 1},
              value: %{
-               "a" => %{changed: :key_removed, value: 1},
-               "b" => %{changed: :key_added, value: 1}
+               "a" => %{
+                 changed: :key_removed,
+                 value: 1
+               },
+               "b" => %{
+                 changed: :key_added,
+                 value: 1
+               }
              }
            }
   end
 
   test "when two maps with same keys but different values" do
-    assert MapCompare.compare(%{"a" => 1}, %{"a" => 2}) == %{
+    assert MapCompare.compare(
+             %{
+               "integer" => 1,
+               "string" => "one",
+               "boolean" => true,
+               "list" => [1, 2, 3]
+             },
+             %{
+               "integer" => 2,
+               "string" => "two",
+               "boolean" => false,
+               "list" => [4, 5, 6]
+             }
+           ) == %{
              same: false,
-             added_to_b: %{"a" => 2},
-             removed_from_a: %{"a" => 1},
-             value: %{"a" => %{added: 2, changed: :value_changed, removed: 1}}
+             added_to_b: %{
+               "integer" => 2,
+               "string" => "two",
+               "boolean" => false,
+               "list" => [4, 5, 6]
+             },
+             removed_from_a: %{
+               "integer" => 1,
+               "string" => "one",
+               "boolean" => true,
+               "list" => [1, 2, 3]
+             },
+             value: %{
+               "boolean" => %{
+                 added: false,
+                 changed: :value_changed,
+                 removed: true
+               },
+               "integer" => %{
+                 added: 2,
+                 changed: :value_changed,
+                 removed: 1
+               },
+               "list" => %{
+                 added: [4, 5, 6],
+                 changed: :value_changed,
+                 removed: [1, 2, 3]
+               },
+               "string" => %{
+                 added: "two",
+                 changed: :value_changed,
+                 removed: "one"
+               }
+             }
            }
   end
 
@@ -69,7 +129,12 @@ defmodule MapCompareTest do
                "string" => "two",
                "boolean" => false,
                "list" => [1, 2, 3],
-               "map" => %{"integer" => 1, "string" => "two", "boolean" => false, "list" => []}
+               "map" => %{
+                 "integer" => 1,
+                 "string" => "two",
+                 "boolean" => false,
+                 "list" => []
+               }
              },
              %{}
            ) == %{
@@ -80,16 +145,38 @@ defmodule MapCompareTest do
                "string" => "two",
                "boolean" => false,
                "list" => [1, 2, 3],
-               "map" => %{"integer" => 1, "string" => "two", "boolean" => false, "list" => []}
+               "map" => %{
+                 "integer" => 1,
+                 "string" => "two",
+                 "boolean" => false,
+                 "list" => []
+               }
              },
              value: %{
-               "integer" => %{changed: :key_removed, value: 1},
-               "string" => %{changed: :key_removed, value: "two"},
-               "boolean" => %{changed: :key_removed, value: false},
-               "list" => %{changed: :key_removed, value: [1, 2, 3]},
+               "integer" => %{
+                 changed: :key_removed,
+                 value: 1
+               },
+               "string" => %{
+                 changed: :key_removed,
+                 value: "two"
+               },
+               "boolean" => %{
+                 changed: :key_removed,
+                 value: false
+               },
+               "list" => %{
+                 changed: :key_removed,
+                 value: [1, 2, 3]
+               },
                "map" => %{
                  changed: :key_removed,
-                 value: %{"boolean" => false, "integer" => 1, "list" => [], "string" => "two"}
+                 value: %{
+                   "boolean" => false,
+                   "integer" => 1,
+                   "list" => [],
+                   "string" => "two"
+                 }
                }
              }
            }
@@ -101,7 +188,12 @@ defmodule MapCompareTest do
                "string" => "two",
                "boolean" => false,
                "list" => [1, 2, 3],
-               "map" => %{"integer" => 1, "string" => "two", "boolean" => false, "list" => []}
+               "map" => %{
+                 "integer" => 1,
+                 "string" => "two",
+                 "boolean" => false,
+                 "list" => []
+               }
              }
            ) == %{
              same: false,
@@ -111,18 +203,49 @@ defmodule MapCompareTest do
                "string" => "two",
                "boolean" => false,
                "list" => [1, 2, 3],
-               "map" => %{"integer" => 1, "string" => "two", "boolean" => false, "list" => []}
+               "map" => %{
+                 "integer" => 1,
+                 "string" => "two",
+                 "boolean" => false,
+                 "list" => []
+               }
              },
              value: %{
-               "integer" => %{changed: :key_added, value: 1},
-               "string" => %{changed: :key_added, value: "two"},
-               "boolean" => %{changed: :key_added, value: false},
-               "list" => %{changed: :key_added, value: [1, 2, 3]},
+               "integer" => %{
+                 changed: :key_added,
+                 value: 1
+               },
+               "string" => %{
+                 changed: :key_added,
+                 value: "two"
+               },
+               "boolean" => %{
+                 changed: :key_added,
+                 value: false
+               },
+               "list" => %{
+                 changed: :key_added,
+                 value: [1, 2, 3]
+               },
                "map" => %{
                  changed: :key_added,
-                 value: %{"boolean" => false, "integer" => 1, "list" => [], "string" => "two"}
+                 value: %{
+                   "boolean" => false,
+                   "integer" => 1,
+                   "list" => [],
+                   "string" => "two"
+                 }
                }
              }
            }
+  end
+
+  test "shallow nested map compare" do
+    assert MapCompare.compare(
+             %{"map" => %{"integer" => 1}},
+             %{"map" => %{"integer" => 2}},
+             true
+           ) ==
+             %{same: true}
   end
 end
