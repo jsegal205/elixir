@@ -14,6 +14,14 @@ Once you have asdf installed run the following command:
 asdf install
 ```
 
+### Install same phoenix version
+
+Per the documentation in https://github.com/phoenixframework/archives , run the following command:
+
+```bash
+mix archive.install hex phx_new 1.7.7
+```
+
 ### Set up project requirements
 
 The following command will get elixir dependencies, set up the DB and install any needed UI related dependencies
