@@ -4,8 +4,8 @@ defmodule LinkShortener.Links.Link do
 
   schema "links" do
     field :key, :string
-    field :url, :string
-    field :hit_counter, :integer
+    field :url, EctoFields.URL
+    field :hit_counter, :integer, default: 0
 
     timestamps()
   end

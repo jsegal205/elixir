@@ -5,12 +5,11 @@ defmodule LinkShortener.Repo.Migrations.CreateLinks do
     create table(:links) do
       add :key, :string
       add :url, :string
-      add :hit_counter, :integer
+      add :hit_counter, :integer, default: 0
 
       timestamps()
     end
 
-    create unique_index(:links, [:url])
     create unique_index(:links, [:key])
   end
 end
