@@ -1,18 +1,37 @@
 # LinkShortener
 
-To start your Phoenix server:
+## Get started -
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+### Install needed language versions
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Run correct versions of elixir, erlang and nodejs
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+I use [asdf](https://asdf-vm.com/) as a version manager. If you don't have it, please either install it locally OR reference [.tool-versions](./tool-versions) to install the correct versions.
 
-## Learn more
+Once you have asdf installed run the following command:
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+```bash
+asdf install
+```
+
+### Set up project requirements
+
+The following command will get elixir dependencies, set up the DB and install any needed UI related dependencies
+
+```bash
+mix setup
+```
+
+## Run local server
+
+```bash
+mix phx.server
+```
+
+or to run the server in an IEx session (good for debugging)
+
+```bash
+iex -S mix phx.server
+```
+
+Now you can visit [`localhost:8080`](http://localhost:8080) from your browser.
