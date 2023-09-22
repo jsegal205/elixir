@@ -121,10 +121,28 @@ defmodule LinkShortener.Links do
     Link.changeset(link, attrs)
   end
 
+  @doc """
+  Updates a link's hit counter by one.
+
+  ## Examples
+
+      iex> increase_hit_counter(link)
+      {:ok, %Link{}}
+
+  """
   def increase_hit_counter(%Link{} = link) do
     update_link(link, %{hit_counter: link.hit_counter + 1})
   end
 
+  @doc """
+  creates a comma delimited string of the values of all `Links`
+
+  ## Examples
+
+      iex> generate_csv()
+      "id_value,key_value,url_value,hit_counter_value"
+
+  """
   def generate_csv() do
     list_links()
     |> Enum.map(fn link ->
