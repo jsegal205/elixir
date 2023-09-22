@@ -1,0 +1,39 @@
+<.header>
+  Listing Links
+  <:actions>
+    <%= if length(@links) > 0 do %>
+      <.link href={~p"/export_csv"}>
+        <.button>Export CSV</.button>
+      </.link>
+    <% end %>
+
+    <.link href={~p"/links/new"}>
+      <.button>New Link</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="links" rows={@links}>
+  <:col :let={link} label="Key">
+    <.link navigate={~p"/#{link.key}"}>
+      <%= link.key %>
+    </.link>
+  </:col>
+  <:col :let={link} label="Url"><%= link.url %></:col>
+  <:col :let={link} label="Hit counter">
+    <%= link.hit_counter %>
+  </:col>
+
+  <:action :let={link}>
+    <.link navigate={~p"/links/#{link}"}>Show</.link>
+  </:action>
+
+  <:action :let={link}>
+    <.link navigate={~p"/links/#{link}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={link}>
+    <.link href={~p"/links/#{link}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

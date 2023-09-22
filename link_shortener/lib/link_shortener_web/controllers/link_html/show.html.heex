@@ -1,0 +1,21 @@
+<.header>
+  Link <%= @link.id %>
+  <:subtitle>This is a shortened link.</:subtitle>
+  <:actions>
+    <.link href={~p"/links/#{@link}/edit"}>
+      <.button>Edit link</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Key">
+    <.link navigate={~p"/#{@link.key}"}>
+      <%= @link.key %>
+    </.link>
+  </:item>
+  <:item title="Url"><%= @link.url %></:item>
+  <:item title="Hit counter"><%= @link.hit_counter %></:item>
+</.list>
+
+<.back navigate={~p"/links"}>Back to links</.back>
