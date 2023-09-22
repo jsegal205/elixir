@@ -7,14 +7,21 @@
   </:actions>
 </.header>
 
-<.table id="links" rows={@links} row_click={&JS.navigate(~p"/links/#{&1}")}>
-  <:col :let={link} label="Key"><%= link.key %></:col>
+<.table id="links" rows={@links}>
+  <:col :let={link} label="Key">
+    <.link navigate={~p"/#{link.key}"}>
+      <%= link.key %>
+    </.link>
+  </:col>
   <:col :let={link} label="Url"><%= link.url %></:col>
-  <:col :let={link} label="Hit counter"><%= link.hit_counter %></:col>
+  <:col :let={link} label="Hit counter">
+    <%= link.hit_counter %></:col>
+
   <:action :let={link}>
-    <div class="sr-only">
-      <.link navigate={~p"/links/#{link}"}>Show</.link>
-    </div>
+    <.link navigate={~p"/links/#{link}"}>Show</.link>
+  </:action>
+
+  <:action :let={link}>
     <.link navigate={~p"/links/#{link}/edit"}>Edit</.link>
   </:action>
   <:action :let={link}>

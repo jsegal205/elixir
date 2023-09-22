@@ -17,8 +17,11 @@ defmodule LinkShortenerWeb.Router do
   scope "/", LinkShortenerWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", LinkController, :new
+    get "/stats", LinkController, :index
     resources "/links", LinkController
+
+    get "/:key", LinkRedirectController, :index
   end
 
   # Other scopes may use custom stacks.

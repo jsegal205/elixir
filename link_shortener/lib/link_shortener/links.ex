@@ -41,6 +41,20 @@ defmodule LinkShortener.Links do
   def get_link!(id), do: Repo.get!(Link, id)
 
   @doc """
+  Gets a single link by key.
+
+
+    ## Examples
+
+      iex> get_link_by_key(123)
+      %Link{}
+
+      iex> get_link_by_key("asdf")
+      nil
+  """
+  def get_link_by_key(key), do: Repo.get_by(Link, key: key)
+
+  @doc """
   Creates a link.
 
   ## Examples
