@@ -5,14 +5,9 @@ defmodule LinkShortener.LinksFixtures do
   """
 
   @doc """
-  Generate a unique link key.
-  """
-  def unique_link_key, do: "some key#{System.unique_integer([:positive])}"
-
-  @doc """
   Generate a unique link url.
   """
-  def unique_link_url, do: "some url#{System.unique_integer([:positive])}"
+  def unique_link_url, do: "http://example#{System.unique_integer([:positive])}.com"
 
   @doc """
   Generate a link.
@@ -21,9 +16,8 @@ defmodule LinkShortener.LinksFixtures do
     {:ok, link} =
       attrs
       |> Enum.into(%{
-        key: unique_link_key(),
-        url: unique_link_url(),
-        hit_counter: 42
+        "url" => unique_link_url(),
+        "hit_counter" => 42
       })
       |> LinkShortener.Links.create_link()
 

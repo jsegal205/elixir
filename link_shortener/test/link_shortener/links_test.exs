@@ -8,7 +8,7 @@ defmodule LinkShortener.LinksTest do
 
     import LinkShortener.LinksFixtures
 
-    @invalid_attrs %{key: nil, url: nil, hit_counter: nil}
+    @invalid_attrs %{"url" => "not-a-url"}
 
     test "list_links/0 returns all links" do
       link = link_fixture()
@@ -21,11 +21,11 @@ defmodule LinkShortener.LinksTest do
     end
 
     test "create_link/1 with valid data creates a link" do
-      valid_attrs = %{key: "some key", url: "some url", hit_counter: 42}
+      valid_attrs = %{"url" => "http://example.com", "hit_counter" => 42}
 
       assert {:ok, %Link{} = link} = Links.create_link(valid_attrs)
-      assert link.key == "some key"
-      assert link.url == "some url"
+      # assert link.key == "some key"
+      assert link.url == "http://example.com"
       assert link.hit_counter == 42
     end
 
@@ -35,11 +35,16 @@ defmodule LinkShortener.LinksTest do
 
     test "update_link/2 with valid data updates the link" do
       link = link_fixture()
-      update_attrs = %{key: "some updated key", url: "some updated url", hit_counter: 43}
+
+      update_attrs = %{
+        "key" => link.key,
+        "url" => "http://example-updated.com",
+        "hit_counter" => 43
+      }
 
       assert {:ok, %Link{} = link} = Links.update_link(link, update_attrs)
-      assert link.key == "some updated key"
-      assert link.url == "some updated url"
+
+      assert link.url == "http://example-updated.com"
       assert link.hit_counter == 43
     end
 
@@ -58,6 +63,13 @@ defmodule LinkShortener.LinksTest do
     test "change_link/1 returns a link changeset" do
       link = link_fixture()
       assert %Ecto.Changeset{} = Links.change_link(link)
+    end
+
+    test "increase_hit_counter/1 increases hit counter value by 1" do
+      link = link_fixture(%{"hit_counter" => 0})
+
+      assert {:ok, %Link{} = link} = Links.increase_hit_counter(link)
+      assert link.hit_counter == 1
     end
   end
 end

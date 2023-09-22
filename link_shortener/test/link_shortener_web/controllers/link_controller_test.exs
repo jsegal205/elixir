@@ -3,9 +3,9 @@ defmodule LinkShortenerWeb.LinkControllerTest do
 
   import LinkShortener.LinksFixtures
 
-  @create_attrs %{key: "some key", url: "some url", hit_counter: 42}
-  @update_attrs %{key: "some updated key", url: "some updated url", hit_counter: 43}
-  @invalid_attrs %{key: nil, url: nil, hit_counter: nil}
+  @create_attrs %{"url" => "http://example.com", "hit_counter" => 42}
+  @update_attrs %{"url" => "http://example-updated.com", "hit_counter" => 43}
+  @invalid_attrs %{"key" => nil, "url" => nil, "hit_counter" => nil}
 
   describe "index" do
     test "lists all links", %{conn: conn} do
@@ -55,7 +55,7 @@ defmodule LinkShortenerWeb.LinkControllerTest do
       assert redirected_to(conn) == ~p"/links/#{link}"
 
       conn = get(conn, ~p"/links/#{link}")
-      assert html_response(conn, 200) =~ "some updated key"
+      assert html_response(conn, 200) =~ "http://example-updated.com"
     end
 
     test "renders errors when data is invalid", %{conn: conn, link: link} do
