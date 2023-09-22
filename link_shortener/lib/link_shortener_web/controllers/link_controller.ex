@@ -59,4 +59,13 @@ defmodule LinkShortenerWeb.LinkController do
     |> put_flash(:info, "Link deleted successfully.")
     |> redirect(to: ~p"/links")
   end
+
+  def export_csv(conn, _params) do
+    csv = Links.generate_csv()
+
+    conn
+    |> put_resp_content_type("text/csv")
+    |> put_resp_header("content-disposition", "attachment; filename=\"ShortenedLinks.csv\"")
+    |> send_resp(200, csv)
+  end
 end

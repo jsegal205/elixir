@@ -1,11 +1,18 @@
 <.header>
   Listing Links
   <:actions>
+    <%= if length(@links) > 0 do %>
+      <.link href={~p"/export_csv"}>
+        <.button>Export CSV</.button>
+      </.link>
+    <% end %>
+
     <.link href={~p"/links/new"}>
       <.button>New Link</.button>
     </.link>
   </:actions>
 </.header>
+
 
 <.table id="links" rows={@links}>
   <:col :let={link} label="Key">

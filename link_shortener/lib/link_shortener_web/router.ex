@@ -20,6 +20,7 @@ defmodule LinkShortenerWeb.Router do
     get "/", LinkController, :new
     get "/stats", LinkController, :index
     resources "/links", LinkController
+    get "/export_csv", LinkController, :export_csv
 
     get "/:key", LinkRedirectController, :index
   end

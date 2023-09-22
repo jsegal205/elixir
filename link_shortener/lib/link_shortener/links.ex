@@ -125,6 +125,20 @@ defmodule LinkShortener.Links do
     update_link(link, %{hit_counter: link.hit_counter + 1})
   end
 
+  def generate_csv() do
+    list_links()
+    |> Enum.map(fn link ->
+      link
+      |> Map.from_struct()
+      |> Map.take([])
+      |> Map.merge(Map.take(link, [:id, :key, :url, :hit_counter]))
+      |> Map.values()
+    end)
+    |> CSV.encode()
+    |> Enum.to_list()
+    |> to_string()
+  end
+
   defp create_random_key() do
     @hash_id_length
     |> :crypto.strong_rand_bytes()
