@@ -121,6 +121,10 @@ defmodule LinkShortener.Links do
     Link.changeset(link, attrs)
   end
 
+  def increase_hit_counter(%Link{} = link) do
+    update_link(link, %{hit_counter: link.hit_counter + 1})
+  end
+
   defp create_random_key() do
     @hash_id_length
     |> :crypto.strong_rand_bytes()

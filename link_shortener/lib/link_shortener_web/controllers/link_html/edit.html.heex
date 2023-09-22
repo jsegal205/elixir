@@ -1,6 +1,6 @@
 <.header>
   Edit Link <%= @link.id %>
-  <:subtitle>Use this form to manage link records in your database.</:subtitle>
+  <:subtitle>Use this form to manage shortened links.</:subtitle>
 </.header>
 
 <.link_form changeset={@changeset} action={~p"/links/#{@link}"} />

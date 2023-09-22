@@ -6,7 +6,8 @@ defmodule LinkShortenerWeb.LinkRedirectController do
 
   def index(conn, %{"key" => key}) do
     case Links.get_link_by_key(key) do
-      %Link{url: url} ->
+      %Link{url: url} = link ->
+        Links.increase_hit_counter(link)
         redirect(conn, external: url)
 
       _ ->
