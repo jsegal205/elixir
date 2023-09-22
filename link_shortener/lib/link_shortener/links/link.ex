@@ -15,7 +15,6 @@ defmodule LinkShortener.Links.Link do
     link
     |> cast(attrs, [:key, :url, :hit_counter])
     |> validate_required([:key, :url, :hit_counter])
-    |> unique_constraint(:url)
     |> unique_constraint(:key)
   end
 end

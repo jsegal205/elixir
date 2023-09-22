@@ -4,9 +4,12 @@ defmodule LinkShortener.Links do
   """
 
   import Ecto.Query, warn: false
+
   alias LinkShortener.Repo
 
   alias LinkShortener.Links.Link
+
+  @hash_id_length 8
 
   @doc """
   Returns the list of links.
@@ -50,6 +53,8 @@ defmodule LinkShortener.Links do
 
   """
   def create_link(attrs \\ %{}) do
+    attrs = Map.put(attrs, "key", create_random_key())
+
     %Link{}
     |> Link.changeset(attrs)
     |> Repo.insert()
@@ -100,5 +105,12 @@ defmodule LinkShortener.Links do
   """
   def change_link(%Link{} = link, attrs \\ %{}) do
     Link.changeset(link, attrs)
+  end
+
+  defp create_random_key() do
+    @hash_id_length
+    |> :crypto.strong_rand_bytes()
+    |> Base.url_encode64()
+    |> binary_part(0, @hash_id_length)
   end
 end
