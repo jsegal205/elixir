@@ -13,7 +13,6 @@
   </:actions>
 </.header>
 
-
 <.table id="links" rows={@links}>
   <:col :let={link} label="Key">
     <.link navigate={~p"/#{link.key}"}>
@@ -22,7 +21,8 @@
   </:col>
   <:col :let={link} label="Url"><%= link.url %></:col>
   <:col :let={link} label="Hit counter">
-    <%= link.hit_counter %></:col>
+    <%= link.hit_counter %>
+  </:col>
 
   <:action :let={link}>
     <.link navigate={~p"/links/#{link}"}>Show</.link>
