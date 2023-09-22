@@ -145,14 +145,8 @@ defmodule LinkShortener.Links do
   """
   def generate_csv() do
     list_links()
-    |> Enum.map(fn link ->
-      link
-      |> Map.from_struct()
-      |> Map.take([])
-      |> Map.merge(Map.take(link, [:id, :key, :url, :hit_counter]))
-      |> Map.values()
-    end)
-    |> CSV.encode()
+    |> Enum.map(&Map.from_struct(&1))
+    |> CSV.encode(headers: [:id, :key, :url, :hit_counter])
     |> Enum.to_list()
     |> to_string()
   end

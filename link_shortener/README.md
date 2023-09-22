@@ -74,7 +74,3 @@ mix test
 
 - I used the default phoenix / tailwind styling and generators for the majority of the work.
 - Overall a very straight forward challenge. I hope you enjoy my submission.
-
-## Issues
-
-- I had issues getting CSV headers to render. I'm sure it's something silly but my brain is a bit fried from work and this assessment.
