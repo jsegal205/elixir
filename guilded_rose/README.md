@@ -1,3 +1,6 @@
+Original [code kata link
+](https://github.com/emilybache/GildedRose-Refactoring-Kata/tree/main/elixir) for initial state of this module.
+
 # The Gilded Rose
 
 Hi and welcome to team Gilded Rose.
