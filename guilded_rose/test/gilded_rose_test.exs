@@ -32,15 +32,16 @@ defmodule GildedRoseTest do
     end
 
     test "aged brie increases in quality as sell_in decreases", %{agent: agent} do
-      %Item{quality: before_quality} =
+      %Item{quality: before_quality, sell_in: before_sell_in} =
         get_item_by_name(agent, "Aged Brie")
 
       GildedRose.update_quality(agent)
 
-      %Item{quality: after_quality} =
+      %Item{quality: after_quality, sell_in: after_sell_in} =
         get_item_by_name(agent, "Aged Brie")
 
       assert before_quality < after_quality
+      assert before_sell_in > after_sell_in
     end
 
     test "aged brie quality never goes over 50", %{agent: agent} do

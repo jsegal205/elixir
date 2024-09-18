@@ -26,10 +26,15 @@ defmodule GildedRose do
     Agent.update(
       agent,
       &Enum.map(&1, fn %Item{} = item ->
-        adjust_quality(item)
+        item
+        |> adjust_quality()
+        |> adjust_sell_in()
       end)
     )
   end
+
+  defp adjust_sell_in(%Item{name: "Sulfuras, Hand of Ragnaros"} = item), do: item
+  defp adjust_sell_in(%Item{} = item), do: %{item | sell_in: item.sell_in - 1}
 
   defp adjust_quality(%Item{name: name} = item) do
     case name do
