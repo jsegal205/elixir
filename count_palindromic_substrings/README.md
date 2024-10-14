@@ -1,21 +1,29 @@
 # CountPalindromicSubstrings
 
-**TODO: Add description**
+My implementation of
+https://leetcode.com/problems/palindromic-substrings/description/
 
-## Installation
+## Description
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `count_palindromic_substrings` to your list of dependencies in `mix.exs`:
+Given a string s, return the number of palindromic substrings in it.
+A string is a palindrome when it reads the same backward as forward.
+A substring is a contiguous sequence of characters within the string.
 
-```elixir
-def deps do
-  [
-    {:count_palindromic_substrings, "~> 0.1.0"}
-  ]
-end
+### Example 1
+
+Input: s = "abc"
+Output: 3
+Explanation: Three palindromic strings: "a", "b", "c".
+
+### Example 2
+
+Input: s = "aaa"
+Output: 6
+Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
+
+## Constraints
+
 ```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/count_palindromic_substrings>.
-
+  1 <= s.length <= 1000
+  s consists of lowercase English letters.
+```
